@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dismissible_example_app/task_tile.dart';
+import 'package:flutter_dismissible_example_app/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'settings_page.dart'; // 설정 페이지 파일 import
 import 'help_page.dart'; // 도움말 페이지 파일 import
 
@@ -78,6 +80,16 @@ class _DismissibleExampleState extends State<DismissibleTodo> {
       appBar: AppBar(
         title: Text('밀어서 할 일 해결'),
         actions: [
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return Switch(
+                value: themeProvider.themeMode == ThemeMode.dark,
+                onChanged: (value) {
+                  themeProvider.toggleTheme();
+                },
+              );
+            },
+          ),
           PopupMenuButton<String>(
             onSelected: (String result) {
               if (result == '설정') {
@@ -281,7 +293,3 @@ class _DismissibleExampleState extends State<DismissibleTodo> {
     );
   }
 }
-
-void main() => runApp(MaterialApp(
-  home: DismissibleTodo(),
-));
